@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -30,35 +30,54 @@ const AppLogo = styled.img.attrs({
 `;
 
 const Button = styled.button`
-  /* Adapt the colors based on primary prop */
-  background: ${props => (props.primary ? "palevioletred" : "white")};
-  color: ${props => (props.primary ? "white" : "palevioletred")};
+  background: ${props => (props.primary ? "#61dafb" : "white")};
+  color: ${props => (props.primary ? "white" : "#61dafb")};
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid palevioletred;
+  border: 2px solid #61dafb;
   border-radius: 3px;
+  cursor: pointer;
+`;
+
+const ReverseButton = styled(Button)`
+  position: absolute;
+  left: 2em;
+  top: 2em;
 `;
 
 export default function App(props) {
-  // let { path, url } = useRouteMatch();
   const [count, setCount] = useState(1);
-
   const Logos = [];
   for (let i = 0; i < count; i++) {
     Logos.push(<AppLogo></AppLogo>);
   }
 
+  const eventAddLogo = new CustomEvent("APP1:addLogo", {
+    bubbles: true,
+    detail: { value: count }
+  });
+
+  const handleIncrement = () => {
+    setCount(count + 1);
+  };
+
+  const handleDecrement = () => {
+    setCount(count - 1 <= 0 ? 0 : count - 1);
+  };
+
+  useEffect(() => {
+    document.dispatchEvent(eventAddLogo);
+  });
+
   return (
-    <div className="App">
+    <div className="App" id="app1-wrapper">
       <header className="App-header">
         <div className="Logos">{Logos}</div>
         <div className="AppDetails">
-          <Button onClick={() => setCount(count - 1 <= 0 ? 0 : count - 1)}>
-            -
-          </Button>
+          <Button onClick={handleDecrement}>-</Button>
           <p>App 1</p>
-          <Button primary onClick={() => setCount(count + 1)}>
+          <Button primary onClick={handleIncrement}>
             +
           </Button>
         </div>
