@@ -6,11 +6,8 @@ import * as serviceWorker from "./serviceWorker";
 
 console.log("Init Product APP");
 
-window.renderProduct = (containerId, history) => {
-  ReactDOM.render(
-    <App history={history} />,
-    document.getElementById(containerId)
-  );
+window.renderProduct = (containerId, props) => {
+  ReactDOM.render(<App {...props} />, document.getElementById(containerId));
   serviceWorker.unregister();
 };
 
