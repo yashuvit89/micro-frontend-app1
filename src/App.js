@@ -24,13 +24,21 @@ const pulse = keyframes`
 const AppLogo = styled.img.attrs({
   src: logo
 })`
-  height: 30vmin;
+  height: 25vmin;
   pointer-events: none;
-  animation: ${pulse} infinite 10s linear;
+  animation: ${pulse} infinite 20s linear;
 `;
 
-const defaultHistory = createBrowserHistory();
-const TestRoute = ({ history }) => <h2>Test route for App 1</h2>;
+const Button = styled.button`
+  /* Adapt the colors based on primary prop */
+  background: ${props => (props.primary ? "palevioletred" : "white")};
+  color: ${props => (props.primary ? "white" : "palevioletred")};
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
 
 export default function App(props) {
   // let { path, url } = useRouteMatch();
@@ -45,7 +53,15 @@ export default function App(props) {
     <div className="App">
       <header className="App-header">
         <div className="Logos">{Logos}</div>
-        <p>App 1</p>
+        <div className="AppDetails">
+          <Button onClick={() => setCount(count - 1 <= 0 ? 0 : count - 1)}>
+            -
+          </Button>
+          <p>App 1</p>
+          <Button primary onClick={() => setCount(count + 1)}>
+            +
+          </Button>
+        </div>
       </header>
     </div>
   );

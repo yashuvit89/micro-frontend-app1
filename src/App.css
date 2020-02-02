@@ -42,3 +42,8 @@
   flex-direction: row;
   flex-wrap: wrap;
 }
+
+.AppDetails {
+  display: flex;
+  align-items: center;
+}
