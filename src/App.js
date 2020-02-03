@@ -26,7 +26,7 @@ const AppLogo = styled.img.attrs({
 })`
   height: 25vmin;
   pointer-events: none;
-  animation: ${pulse} infinite 20s linear;
+  animation: ${pulse} infinite ${props => props.speed}s linear;
 `;
 
 const Button = styled.button`
@@ -47,10 +47,11 @@ const ReverseButton = styled(Button)`
 `;
 
 export default function App(props) {
+  const [speed, setSpeed] = useState(20);
   const [count, setCount] = useState(1);
   const Logos = [];
   for (let i = 0; i < count; i++) {
-    Logos.push(<AppLogo></AppLogo>);
+    Logos.push(<AppLogo speed={speed}></AppLogo>);
   }
 
   const eventAddLogo = new CustomEvent("APP1:addLogo", {
@@ -68,6 +69,9 @@ export default function App(props) {
 
   useEffect(() => {
     document.dispatchEvent(eventAddLogo);
+    document.addEventListener("APP2:increaseSpeed", e => {
+      setSpeed(e.detail.value);
+    });
   });
 
   return (
